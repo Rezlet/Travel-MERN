@@ -1,12 +1,40 @@
 import { faEyeSlash, faEye } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { server } from "../../server";
+import { toast } from "react-toastify";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [visible, setVisible] = useState(false);
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+    await axios
+      .post(
+        `http://localhost:8080/api/v2/user/login-user`,
+        {
+          email,
+          password,
+        },
+        { withCredentials: true }
+      )
+      .then((res) => {
+        console.log(res)
+        document.cookie = `token=${res.data.token}; expires=${res.data.options.expires}`;
+        toast.success("Login Success");
+        navigate("/");
+        window.location.reload(); 
+        // window.location.reload();
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error(err.response?.data?.message || err.message);
+      });
+  };
   return (
     <div className="bg-grey-50 flex flex-column justify-center mb-5 w-100">
       <div className="w-100 m-auto">
@@ -17,7 +45,7 @@ const Login = () => {
 
       <div className="mt-4 w-50 p-0" style={{ maxWidth: "550px" }}>
         <div className="bg-white p-4 shadow border-r-20">
-          <form action="" className="">
+          <form onSubmit={handleSubmit} className="">
             <div className="">
               <label
                 htmlFor="email"
@@ -105,10 +133,7 @@ const Login = () => {
 
             <div className="d-flex align-items-center  mt-2 w-100">
               <h4 className="fz-16 m-0">Not have any account?</h4>
-              <Link
-                to="/sign-up"
-                className="ps-2  fw-600 text-decoration-none"
-              >
+              <Link to="/sign-up" className="ps-2  fw-600 text-decoration-none">
                 Sign up
               </Link>
             </div>

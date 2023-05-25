@@ -6,6 +6,6 @@ export default {
     tailwindcss,
     autoprefixer,
   ],
-  input: 'src/assets/css/main.css', // Chỉ định đường dẫn đến tệp CSS chính của bạn
-  output: 'src/public/css/main.css',
+  input: 'src/assets/css/main.scss', // Chỉ định đường dẫn đến tệp CSS chính của bạn
+  output: 'src/public/css/main.scss',
 };

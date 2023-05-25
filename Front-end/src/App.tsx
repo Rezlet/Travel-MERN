@@ -1,22 +1,78 @@
-import { useState } from "react";
+import { useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.css";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import "./assets/css/main.css";
+import "./assets/css/main.scss";
+import "react-toastify/dist/ReactToastify.css";
 
 import Header from "./components/Layout/Header";
 import Footer from "./components/Layout/Footer";
-import { LoginPage,SignUpPage } from "./Routes";
+import AdminNav from "./components/Layout/AdminNav";
+import {
+  LoginPage,
+  SignUpPage,
+  ActivationPage,
+  HomePage,
+  DashBoardPage,
+  TourDetailPage,
+  CreateTourPage,
+  TourPage,
+  PaymentSuccess,
+  SearchToursPage,
+  ChartPage,
+  UpdateTourPage
+} from "./Routes";
+import { ToastContainer } from "react-toastify";
+import Store from "./redux/store";
+import { loadUser } from "./redux/actions/user";
+import { useSelector } from "react-redux";
+import { isAdmin } from "./shared/GlobalFunction";
 function App() {
+  const { loading, user } = useSelector((state: any) => state.user);
+
+  useEffect(() => {
+    Store.dispatch(loadUser());
+  }, []);
+
   return (
-    <BrowserRouter>
-      <Header></Header>
-      <Routes>
-        <Route path="/login" element={<LoginPage />}></Route>
-        <Route path="/sign-up" element={<SignUpPage />}></Route>
-      </Routes>
-      <Footer></Footer>
-    </BrowserRouter>
+    <>
+      {loading ? null : (
+        <BrowserRouter>
+          {isAdmin(user) ? <AdminNav></AdminNav> : <></>}
+          <Header></Header>
+          <Routes>
+            <Route path="/" element={<HomePage />}></Route>
+            <Route path="/login" element={<LoginPage />}></Route>
+            <Route path="/sign-up" element={<SignUpPage />}></Route>
+            <Route path="/tour-detail/:id" element={<TourDetailPage />}></Route>
+            <Route
+              path="/activation/:activation_token"
+              element={<ActivationPage />}
+            ></Route>
+
+            <Route path="/admin/payments" element={<DashBoardPage />}></Route>
+            <Route path="/admin/chart" element={<ChartPage />}></Route>
+            <Route path="/search-tours" element={<SearchToursPage />}></Route>
+            <Route path="/tour-dashboard" element={<TourPage />}></Route>
+            <Route path="/create-tour" element={<CreateTourPage />}></Route>
+            <Route path="/update-tour/:id" element={<UpdateTourPage />}></Route>
+            <Route path="/payment_success" element={<PaymentSuccess />}></Route>
+          </Routes>
+          <Footer></Footer>
+          <ToastContainer
+            position="bottom-center"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="dark"
+          />
+        </BrowserRouter>
+      )}
+    </>
   );
 }
 

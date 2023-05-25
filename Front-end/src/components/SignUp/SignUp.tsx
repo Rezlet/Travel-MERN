@@ -2,20 +2,69 @@ import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
 import { faUserTie } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-
+import { Link, useNavigate } from "react-router-dom";
+import { server } from "../../server";
+import { toast } from "react-toastify";
+import axios from "axios";
+import { isNum } from "react-toastify/dist/utils";
 const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
   const [avatar, setAvatar] = useState(null);
   const [visible, setVisible] = useState(false);
+  const navigate = useNavigate();
 
-  const handleSubmit = () => {};
+  function validate(phone: any) {
+    var phonePattern = /^\d{3}\d{3}\d{4}$/;
+
+    console.log(phonePattern.test(phone));
+    // Kiểm tra chuỗi theo biểu thức chính quy
+    if (phonePattern.test(phone)) {
+      return true; // Chuỗi là số điện thoại hợp lệ
+    } else {
+      return false; // Chuỗi không phải số điện thoại hợp lệ
+    }
+  }
+
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+    if (validate(phoneNumber) === false) {
+      toast.error("Please check your number phone !!");
+      return;
+    }
+
+    if (!avatar) {
+      toast.error("Please enter your avatar !!");
+      return;
+    }
+
+    const config = { headers: { "Content-Type": "multipart/form-data" } };
+    const newForm = new FormData();
+    newForm.append("file", avatar as any);
+    newForm.append("name", name);
+    newForm.append("email", email);
+    newForm.append("password", password);
+    newForm.append("numberPhone", phoneNumber);
+    axios
+      .post(`${server}/user/create-user`, newForm, config)
+      .then((res) => {
+        console.log(res.statusText);
+        toast.success(res.statusText);
+        setName("");
+        setPassword("");
+        setAvatar(null);
+        setEmail("");
+        setPhoneNumber("")
+      })
+      .catch((err) => {
+        toast.error(err.response.data.message);
+      });
+  };
 
   const handleFileInputChange = (e: any) => {
     const file = e.target.files[0];
-    console.log(avatar);
     setAvatar(file);
   };
   return (
@@ -28,7 +77,7 @@ const SignUp = () => {
 
       <div className="mt-4 w-50 p-0" style={{ maxWidth: "550px" }}>
         <div className="bg-white p-4 shadow border-r-20">
-          <form action="" className="">
+          <form onSubmit={handleSubmit} className="">
             <div className="">
               <label
                 htmlFor="email"
@@ -44,6 +93,25 @@ const SignUp = () => {
                   required
                   value={name}
                   onChange={(e) => setName(e.target.value)}
+                />
+              </div>
+            </div>
+
+            <div className="">
+              <label
+                htmlFor="phone"
+                className="d-block text-sm font-medium text-grey fw-700 "
+              >
+                Phone Number
+              </label>
+              <div className="mt-1">
+                <input
+                  className="d-block w-100 px-3 py-2 border-r-20  rounded-md shadow-sm placeholder-grey focus:outline-none "
+                  type="number"
+                  name="phone"
+                  required
+                  value={phoneNumber}
+                  onChange={(e) => setPhoneNumber(e.target.value)}
                 />
               </div>
             </div>

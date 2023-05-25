@@ -1,9 +1,23 @@
 import { faEnvelope } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from "react";
-import { Link } from "react-router-dom";
-
+// import "@/css/header.scss"
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { backend_url } from "../../server";
+import { faUserTie } from "@fortawesome/free-solid-svg-icons";
+import { deleteCookie } from "../../shared/GlobalFunction";
 const Header = () => {
+  let { isAuthenticated, user } = useSelector((state: any) => state.user);
+  const [isAuth, setIsAuth] = useState(isAuthenticated);
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    deleteCookie("token", "/");
+    setIsAuth(false);
+    // navigate("/");
+    window.location.reload();
+  };
+
   return (
     <div className="header">
       <div className="header-sub">
@@ -86,19 +100,37 @@ const Header = () => {
               Add Your Package
             </a>
             <div className="header-account">
-              <img
-                className="header-account-avatar"
-                src="/src/assets/images/anh-gai.jpg"
-                alt=""
-              />
-              <div className="header-account-user">
-                <Link to="/Login" className="header-account-name">
-                  User Name
-                </Link>
-                <Link to="" className="header-account-status">
-                  Log Out
-                </Link>
-              </div>
+              {isAuth ? (
+                <>
+                  <img
+                    className="header-account-avatar"
+                    src={`${backend_url}${user.avatar}`}
+                    alt=""
+                  />
+                  <div className="header-account-user">
+                    <Link
+                      to="/"
+                      onClick={handleLogout}
+                      className="header-account-name"
+                    >
+                      Log Out
+                    </Link>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <FontAwesomeIcon
+                    icon={faUserTie}
+                    className="header-account-undefine"
+                  />
+
+                  <div className="header-account-user">
+                    <Link to="/Login" className="header-account-name">
+                      User Name
+                    </Link>
+                  </div>
+                </>
+              )}
             </div>
           </div>
         </div>
@@ -108,7 +140,11 @@ const Header = () => {
       <div className="header-main">
         <div className="header-main-container container">
           <a href="/" className="">
-            <img className="header-main-img" src="/src/assets/images/logo.png" alt="" />
+            <img
+              className="header-main-img"
+              src="/src/assets/images/logo.png"
+              alt=""
+            />
           </a>
 
           <span className="ti-menu header-main-icon js-btn-menu"></span>

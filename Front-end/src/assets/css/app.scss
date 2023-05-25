@@ -16,6 +16,10 @@ body {
   top: 0;
   left: 0; }
 
+.btn {
+  transition: all .5s;
+}
+
 .container {
   display: flex;
   margin: 0 auto;
