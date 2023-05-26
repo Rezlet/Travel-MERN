@@ -23,10 +23,10 @@ const Header = () => {
       <div className="header-sub">
         <div className="header-sub-container container">
           <div className="header-information">
-            <a href="#" className="header-options">
+            <Link to="#" className="header-options">
               <span className="ti-credit-card"></span>
               Payment Options
-            </a>
+            </Link>
             <Link to="" className="header-term">
               <span className="ti-check-box"></span>
               Terms Conditions
@@ -96,9 +96,9 @@ const Header = () => {
               </div>
             </div>
 
-            <a href="/package/create" className="header-review">
+            <Link to="/package/create" className="header-review">
               Add Your Package
-            </a>
+            </Link>
             <div className="header-account">
               {isAuth ? (
                 <>
@@ -139,56 +139,56 @@ const Header = () => {
 
       <div className="header-main">
         <div className="header-main-container container">
-          <a href="/" className="">
+          <Link to="/" className="">
             <img
               className="header-main-img"
               src="/src/assets/images/logo.png"
               alt=""
             />
-          </a>
+          </Link>
 
           <span className="ti-menu header-main-icon js-btn-menu"></span>
           <div className="disable-mob header-main-content-menu js-content-menu">
             <span className="ti-close header-main-close-item js-btn-close"></span>
             <div className="header-content-container">
-              <a href="/" className="header-content-main">
+              <Link to="/" className="header-content-main">
                 HOME
-              </a>
+              </Link>
             </div>
 
             <div className="header-content-container">
-              <a href="/packages" className="header-content-main">
+              <Link to="/" className="header-content-main">
                 PACKAGES
-              </a>
+              </Link>
               <div className="header-content-detail">
-                <a href="/search" className="header-content-word">
+                <Link to="/" className="header-content-word">
                   SEARCH
-                </a>
-                <a href="/packages/single" className="header-content-word">
+                </Link>
+                <Link to="/" className="header-content-word">
                   SINGLE PACKAGES
-                </a>
-                <a href="/destination" className="header-content-word">
+                </Link>
+                <Link to="/" className="header-content-word">
                   DESTINATION
-                </a>
+                </Link>
               </div>
             </div>
             <div className="header-content-container">
-              <a href="/shop" className="header-content-main">
+              <Link to="/" className="header-content-main">
                 SHOP
-              </a>
+              </Link>
               <div className="header-content-detail">
-                <a href="/shop" className="header-content-word">
+                <Link to="/" className="header-content-word">
                   SHOP
-                </a>
-                <a href="/shop/cart" className="header-content-word">
+                </Link>
+                <Link to="" className="header-content-word">
                   CART
-                </a>
-                <a href="#" className="header-content-word">
+                </Link>
+                <Link to="#" className="header-content-word">
                   CHECKOUT
-                </a>
-                <a href="/shop/sign-in" className="header-content-word">
+                </Link>
+                <Link to="/" className="header-content-word">
                   My ACCOUNT
-                </a>
+                </Link>
               </div>
             </div>
             <div className="header-content-container">

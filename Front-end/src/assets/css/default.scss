@@ -121,3 +121,40 @@ td {
   background-repeat: no-repeat;
   background-size: contain;
 }
+
+.animation-popup {
+  transition: all .5s;
+  opacity: 0;
+  transform: translateY(-100px);
+  pointer-events: none;
+}
+
+.animation-popup.active {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: all;
+}
+
+.background-popup {
+  background-color: rgba(0,0,0,.2);
+}
+
+.border-top {
+  border-top: 1px solid #ccc;
+}
+
+.text-default {
+  color: #000;
+}
+
+.index-top {
+  z-index: 1030;
+}
+
+.index-middle {
+  z-index: 100;
+}
+
+.index-bottom {
+  z-index: 0;
+}

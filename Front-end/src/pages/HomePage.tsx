@@ -76,7 +76,7 @@ const HomePage = () => {
         flagCruisesCount
       )
         clearInterval(interval);
-    }, 100);
+    }, 50);
 
     return () => clearInterval(interval);
   }, [destinationCount]);

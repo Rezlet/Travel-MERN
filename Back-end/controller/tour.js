@@ -68,6 +68,27 @@ router.put(
   })
 );
 
+router.delete(
+  "/delete-tour/:id",
+  isAuthenticated,
+  catchAsyncError(async (req, res, next) => {
+    try {
+      const tourId = req.params.id;
+
+      const currentTour = await Tour.findOne({id: tourId})
+
+      const deletedTour = await Tour.deleteOne(currentTour);
+
+      res.status(201).json({
+        success: true,
+        deletedTour
+      });
+    } catch (error) {
+      return next(new ErrorHandler(error, 400));
+    }
+  })
+);
+
 // get all tour of a user
 router.get(
   "/get-all-tour-admin/:id",

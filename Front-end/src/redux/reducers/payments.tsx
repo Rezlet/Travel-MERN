@@ -34,4 +34,29 @@ export const paymentReducer = createReducer(initialState, {
     state.error = action.payload;
     state.success = false;
   },
+
+  paidPaymentRequest: (state: any) => {
+    state.isLoading = true;
+  },
+  paidPaymentSuccess: (state: any, action: any) => {
+    state.isLoading = false;
+    state.success = true;
+  },
+  paidPaymentFail: (state: any, action: any) => {
+    state.isLoading = false;
+    state.success = false;
+  },
+
+  
+  cancelPaymentRequest: (state: any) => {
+    state.isLoading = true;
+  },
+  cancelPaymentSuccess: (state: any, action: any) => {
+    state.isLoading = false;
+    state.success = true;
+  },
+  cancelPaymentFail: (state: any, action: any) => {
+    state.isLoading = false;
+    state.success = false;
+  },
 });

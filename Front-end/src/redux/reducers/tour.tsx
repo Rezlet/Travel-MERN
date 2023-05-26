@@ -16,7 +16,7 @@ export const tourReducer = createReducer(initialState, {
   },
   tourCreateSuccess: (state: any, action: any) => {
     state.isLoading = false;
-    state.tours = action.payload;
+    state.tour = action.payload;
     state.success = true;
   },
   tourCreateFail: (state: any, action: any) => {
@@ -39,11 +39,11 @@ export const tourReducer = createReducer(initialState, {
     state.success = false;
   },
 
+
   // get all tours of admin
   getAllToursAdminRequest: (state: any) => {
     state.isLoading = true;
-    state.error =  false,
-    state.success = false
+    (state.error = false), (state.success = false);
   },
   getAllToursAdminSuccess: (state: any, action: any) => {
     state.isLoading = false;

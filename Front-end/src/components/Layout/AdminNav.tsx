@@ -20,7 +20,7 @@ const AdminNav = () => {
             className="categories__item--link gap-2 border-m d-flex flex-column justify-content-center align-items-center"
           >
             <i className="fa-solid fa-road"></i>
-            <h6 className="text-default">Add</h6>
+            <h6 className="text-default">Dash</h6>
           </Link>
         </li>
         <li className="categories__item">

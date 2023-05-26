@@ -5,6 +5,7 @@ const Tour = require("../models/tour");
 const User = require("../models/user");
 const Payment = require("../models/payment");
 const sendMail = require("../utils/sendMail");
+const { isAuthenticated } = require("../middleware/auth");
 
 const router = express.Router();
 
@@ -70,12 +71,73 @@ router.get(
 
       const totalTours = await Payment.countDocuments(); // Tổng số lượng tour trong cơ sở dữ liệu
 
-      const payments = await Payment.find({}).sort({createAt: -1}).limit(limit); // Lấy danh sách tour phân trang
+      const payments = await Payment.find({})
+        .sort({ createAt: -1 })
+        .limit(limit); // Lấy danh sách tour phân trang
 
       res.status(200).json({
         success: true,
         payments,
         totalTours,
+      });
+    } catch (error) {
+      return next(new ErrorHandler(error, 400));
+    }
+  })
+);
+
+router.put(
+  "/paid/:id",
+  isAuthenticated,
+  catchAsyncErrors(async (req, res, next) => {
+    try {
+      const paymentId = req.params.id;
+      console.log(paymentId);
+
+      const currentPayment = await Payment.findById(paymentId);
+
+      const payment = await Payment.updateOne(
+        { _id: paymentId },
+        {
+          $set: {
+            received: currentPayment.amount,
+            status: "2",
+          },
+        }
+      );
+
+      console.log(payment);
+      res.status(200).json({
+        success: true,
+      });
+    } catch (error) {
+      return next(new ErrorHandler(error, 400));
+    }
+  })
+);
+
+router.put(
+  "/cancel/:id",
+  isAuthenticated,
+  catchAsyncErrors(async (req, res, next) => {
+    try {
+      const paymentId = req.params.id;
+      console.log(paymentId);
+
+      const currentPayment = await Payment.findById(paymentId);
+
+      const payment = await Payment.updateOne(
+        { _id: paymentId },
+        {
+          $set: {
+            status: "0",
+          },
+        }
+      );
+
+      console.log(payment);
+      res.status(200).json({
+        success: true,
       });
     } catch (error) {
       return next(new ErrorHandler(error, 400));

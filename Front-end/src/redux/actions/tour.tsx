@@ -58,7 +58,7 @@ export const updateTour =
         withCredentials: true,
       };
 
-      console.log(newForm.getAll("images"))
+      console.log(newForm.getAll("images"));
 
       const { data } = await axios.put(
         `${server}/tour/update-tour`,
@@ -70,7 +70,7 @@ export const updateTour =
         payload: data.tour,
       });
     } catch (error: any) {
-      console.log(error)
+      console.log(error);
       dispatch({
         type: "updateTourFail",
         payload: error.response.data.message,
@@ -78,6 +78,39 @@ export const updateTour =
     }
   };
 
+export const deleteTours =
+  (idTours: any) => async (dispatch: Dispatch<AnyAction>) => {
+    try {
+      let token = getCookie("token");
+      dispatch({
+        type: "deleteTourRequest",
+      });
+
+      const config = {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Cookies: token,
+          "Access-Control-Allow-Credentials": true,
+        },
+        withCredentials: true,
+      };
+
+      const { data } = await axios.delete(
+        `${server}/tour/delete-tour/${idTours}`,
+        config
+      );
+      dispatch({
+        type: "deleteTourSuccess",
+        payload: data.tour,
+      });
+    } catch (error: any) {
+      console.log(error);
+      dispatch({
+        type: "deleteTourFail",
+        payload: error.response.data.message,
+      });
+    }
+  };
 // get All Products of a shop
 export const getAllToursAdmin = (id: any) => async (dispatch: any) => {
   try {

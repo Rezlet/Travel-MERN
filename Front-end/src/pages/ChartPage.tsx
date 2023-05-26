@@ -32,6 +32,8 @@ const ChartPage = () => {
 
   // million
   const priceData = [1, 3, 5, 10];
+  const status = [0, 2];
+  let amountSuccessPayment = 0;
   // config price pie chart
   let labelsIncomeByPrice: any = [];
   let listDataPrice: any = [];
@@ -88,6 +90,9 @@ const ChartPage = () => {
     if (currentDate.getMonth() == paymentDate.getMonth()) {
       monthlyIncome += payment.received;
     }
+
+    console.log(payment.status)
+    if (payment.status == 2) amountSuccessPayment++;
 
     aimData.map((aim: any, index: any) => {
       if (payment.tour.aim == aim.value) {
@@ -225,10 +230,10 @@ const ChartPage = () => {
                 <div className="row no-gutters align-items-center">
                   <div className="col mr-2">
                     <div className="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                      Earnings (Monthly)
+                      Total Amount Of Transactions
                     </div>
-                    <div className="h5 mb-0 font-weight-bold text-gray-800">
-                      $40,000
+                    <div className="h5 mb-0 font-weight-bold text-gray-800 text-center">
+                      {payments.length}
                     </div>
                   </div>
                   <div className="col-auto">
@@ -244,10 +249,10 @@ const ChartPage = () => {
                 <div className="row no-gutters align-items-center">
                   <div className="col mr-2">
                     <div className="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                      Total Income
+                      Successful Transaction Rate
                     </div>
-                    <div className="h5 mb-0 font-weight-bold text-gray-800">
-                      {`${formatter.format(totalIncome)} VND `}
+                    <div className="h5 mb-0 font-weight-bold text-gray-800 text-center">
+                      {((amountSuccessPayment / payments.length  ) * 100).toFixed(0) + "%"}
                     </div>
                   </div>
                   <div className="col-auto">

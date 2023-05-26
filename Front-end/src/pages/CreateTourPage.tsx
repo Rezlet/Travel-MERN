@@ -31,7 +31,7 @@ const CreateTourPage = () => {
     }
     if (success) {
       toast.success("Create new tour sucess");
-      navigate("/dashboard");
+      navigate("/tour-dashboard");
     }
   }, [dispatch, error, success, user]);
 
