@@ -50,13 +50,16 @@ router.put(
         return `${file.filename}`;
       });
 
+
       const tourData = req.body;
+
       const currentTour = await Tour.findById(tourData.id);
+
       tourData.images = [...imageUrls, ...currentTour.images];
 
       tourData.user = req.user;
 
-      const tour = await Tour.updateOne(tourData);
+      const tour = await Tour.updateOne(  { _id: tourData.id }, tourData);
 
       res.status(201).json({
         success: true,

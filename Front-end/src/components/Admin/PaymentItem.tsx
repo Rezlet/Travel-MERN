@@ -49,7 +49,7 @@ const PaymentItem = ({ payment }: any) => {
           type="button"
           className="btn btn-success"
           onClick={() => setConfirmPayment(true)}
-          disabled={status != "1"}
+          disabled={payment.status != "1"}
         >
           Paid
         </button>
@@ -114,7 +114,7 @@ const PaymentItem = ({ payment }: any) => {
           }}
           type="button"
           className="btn btn-danger"
-          disabled={status != "1"}
+          disabled={payment.status != "1"}
         >
           Cancel
         </button>

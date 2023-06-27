@@ -150,6 +150,33 @@ export const getAllTours = () => async (dispatch: any) => {
   }
 };
 
+export const getPDF = () => async (dispatch: any) => {
+  try {
+    const response = await axios.get(`${server}/payment/pdfmaker`, {
+      responseType: "blob",
+    });
+    console.log("1");
+    const url = window.URL.createObjectURL(new Blob([response.data]));
+    console.log("2");
+
+    const link = document.createElement("a");
+    console.log("3");
+
+    link.href = url;
+    console.log("4");
+
+    link.setAttribute("download", "invoice.pdf");
+    console.log("5");
+
+    document.body.appendChild(link);
+    console.log("6");
+
+    link.click();
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export const getTourById = (tourId: any) => async (dispatch: any) => {
   try {
     dispatch({

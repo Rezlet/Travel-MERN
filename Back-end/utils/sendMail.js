@@ -26,6 +26,7 @@ const sendMail = async (option) => {
     html: option.message + htmlImage,
   };
 
+  console.log(mailOption)
   await transporter.sendMail(mailOption, (err, info) => {
     if (err) {
       console.log(err);

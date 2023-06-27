@@ -6,7 +6,7 @@ import { getCookie } from "../../shared/GlobalFunction";
 export const loadUser = () => async (dispatch: any) => {
   let token = getCookie("token");
 
- 
+  console.log(token)
   try {
     dispatch({
       type: "LoadUserRequest",

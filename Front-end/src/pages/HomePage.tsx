@@ -12,14 +12,12 @@ import ItemTravel from "../components/Layout/ListTour";
 // import '../assets/css/home.scss';
 import "~/slick-carousel/slick/slick.css";
 import "~/slick-carousel/slick/slick-theme.css";
-import axios from "axios";
-import { server } from "../server";
 import ListTour from "../components/Layout/ListTour";
 import { Link } from "react-router-dom";
 import ListTourX from "../components/Layout/ListTourX";
 import { aimData, destinationData, countryData } from "../static/data";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllTours } from "../redux/actions/tour";
+import { getAllTours, getPDF } from "../redux/actions/tour";
 import { AnyAction } from "redux";
 const HomePage = () => {
   const settings = {
@@ -81,7 +79,11 @@ const HomePage = () => {
     return () => clearInterval(interval);
   }, [destinationCount]);
 
-  const [data, setData] = useState(tours.slice(0, 6));
+  useEffect(() => {
+    setData(tours.slice(0, 6));
+  }, []);
+
+  const [data, setData] = useState([]);
 
   const handleSearchChange = (e: any) => {
     const term = e.target.value;
@@ -243,26 +245,13 @@ const HomePage = () => {
               ))}
             </select>
 
-            {/* <select
-              className="main-form-select"
-              aria-label="Default select example"
-              onChange={handleAimChange}
-            >
-              <option selected value="">
-                All Country
-              </option>
-              {countryData.map((country) => (
-                <option value={country.value}>{country.label}</option>
-              ))}
-            </select> */}
-
             <button type="submit" className="main-btn-label">
               SEARCH
             </button>
           </div>
         </div>
       </div>
-      <ListTour data={data}></ListTour>
+      <ListTour data={data ? tours.slice(0,6) : data}></ListTour>
 
       <div className="main-container-more">
         <Link to="/search-tours" className="main-more-big">
@@ -430,7 +419,7 @@ const HomePage = () => {
                 placeholder="Messages"
               ></textarea>
 
-              <button type="submit" className="main-footer-btn">
+              <button type="submit" onClick={() => dispatch(getPDF())} className="main-footer-btn">
                 SEND NOW
               </button>
             </div>

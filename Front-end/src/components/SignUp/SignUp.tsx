@@ -224,7 +224,7 @@ const SignUp = () => {
                 type="submit"
                 className="w-100 py-2 mt-3 position-relative d-flex justify-content-center px-2 text-white bg-primary"
               >
-                Login
+                Register
               </button>
             </div>
 

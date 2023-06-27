@@ -6,7 +6,7 @@ const User = require("../models/user");
 const Payment = require("../models/payment");
 const sendMail = require("../utils/sendMail");
 const { isAuthenticated } = require("../middleware/auth");
-
+const pdfService = require('../service/pdf-service')
 const router = express.Router();
 
 router.post(
@@ -85,6 +85,23 @@ router.get(
     }
   })
 );
+
+router.get("/pdfmaker", (req, res, next) => {
+  const chunks = [];
+  pdfService.buildPDF(
+    (chunk) => {
+      chunks.push(chunk);
+    },
+    () => {
+      const pdfBytes = Buffer.concat(chunks);
+      res.writeHead(200, {
+        "Content-Type": "application/pdf",
+        "Content-Disposition": 'attachment; filename="invoice.pdf"',
+      });
+      res.end(pdfBytes);
+    }
+  );
+});
 
 router.put(
   "/paid/:id",

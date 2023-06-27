@@ -30,6 +30,7 @@ const UpdateTourPage = () => {
 
   const currentTour = tours.find((tour: any) => tour._id == id);
 
+
   useEffect(() => {
     dispatch(getAllTours() as unknown as AnyAction);
     setName(currentTour ? currentTour.name : "");

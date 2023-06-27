@@ -12,27 +12,100 @@ import PaymentItem from "./PaymentItem";
 const PaymentList = () => {
   const dispatch = useDispatch();
   const { payments, isLoading } = useSelector((state: any) => state.payments);
+  const [paymentsData, setPaymentsData] = useState(payments);
   const [currentPage, setCurrentPage] = useState(1);
   const [paymentsPerPage, setPaymentPerPage] = useState(8);
   const lastPostIndex = currentPage * paymentsPerPage;
   const firstPostIndex = lastPostIndex - paymentsPerPage;
-
-  const currentPayments = payments.slice(firstPostIndex, lastPostIndex);
+  let currentPayments = paymentsData.slice(firstPostIndex, lastPostIndex);
   const formatter = moneyFormatter();
+
   let pages = [];
 
-  const totalPage = Math.ceil(payments.length / paymentsPerPage);
+  const totalPage = Math.ceil(paymentsData.length / paymentsPerPage);
 
   for (let i = 1; i <= totalPage; i++) {
     pages.push(i);
-  }
+  } 
 
   useEffect(() => {
     dispatch(getAllPayments() as unknown as AnyAction);
   }, [dispatch]);
 
+
+
+  function handleFindByTransaction(e: any) {
+    e.preventDefault();
+    if (e.target.value != "") {
+      let currentPayments = paymentsData.filter((payment: any) =>
+        payment.transactionId.includes(e.target.value)
+      );
+
+      currentPayments = currentPayments.sort((payment: any, lastPayment: any) => payment.transactionId - lastPayment.transactionId )
+      setPaymentsData(currentPayments);
+    } else {
+      setPaymentsData(payments);
+    }
+  }
+
+  function handleFindByBuyer(e: any) {
+    e.preventDefault();
+    if (e.target.value != "") {
+      let currentPayments = paymentsData.filter((payment: any) =>
+        payment.user.name.includes(e.target.value)
+      );
+      
+      currentPayments = currentPayments.sort((payment: any, lastPayment: any) => payment.transactionId - lastPayment.transactionId )
+      setPaymentsData(currentPayments);
+    } else {
+      setPaymentsData(payments);
+    }
+  }
+
+  function handleFindByTourName(e: any) {
+    e.preventDefault();
+    if (e.target.value != "") {
+      let currentPayments = paymentsData.filter((payment: any) =>
+        payment.tour.name.includes(e.target.value)
+      );
+      
+      currentPayments = currentPayments.sort((payment: any, lastPayment: any) => payment.transactionId - lastPayment.transactionId )
+      setPaymentsData(currentPayments);
+    } else {
+      setPaymentsData(payments);
+    }
+  }
   return (
     <div>
+      <div className="row">
+        <div className="col-md-4">
+          <input
+            type="text"
+            className="form-control"
+            id="transaction_id"
+            placeholder="Transaction ID..."
+            onChange={handleFindByTransaction}
+          />
+        </div>
+        <div className="col-md-4">
+          <input
+            type="text"
+            className="form-control"
+            id="buyer"
+            placeholder="Buyer..."
+            onChange={handleFindByBuyer}
+          />
+        </div>
+        <div className="col-md-4">
+          <input
+            type="text"
+            className="form-control"
+            id="tour"
+            placeholder="Tour Name..."
+            onChange={handleFindByTourName}
+          />
+        </div>
+      </div>
       <table className="table">
         <thead>
           <tr>
@@ -52,47 +125,7 @@ const PaymentList = () => {
           ))}
         </tbody>
       </table>
-      <div>
-        <ul className="pagination d-flex justify-content-center">
-          <li className="page-item">
-            <div
-              className="cursor-pointer page-link"
-              onClick={() => {
-                if (currentPage != 1) {
-                  return setCurrentPage(currentPage - 1);
-                }
-              }}
-            >
-              Previous
-            </div>
-          </li>
-          {pages.map((page, index) => {
-            return (
-              <li className="page-item">
-                <div
-                  className="cursor-pointer page-link"
-                  key={index}
-                  onClick={() => setCurrentPage(page)}
-                >
-                  {page}
-                </div>
-              </li>
-            );
-          })}
-          <li className="page-item">
-            <div
-              className="cursor-pointer page-link"
-              onClick={() => {
-                if (currentPage != totalPage) {
-                  return setCurrentPage(currentPage + 1);
-                }
-              }}
-            >
-              Next
-            </div>
-          </li>
-        </ul>
-      </div>
+    
     </div>
   );
 };

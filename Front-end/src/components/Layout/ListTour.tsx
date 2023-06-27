@@ -145,7 +145,7 @@ const ListTour = (data: any) => {
                         </>
                       ) : (
                         <>
-                          <Link to="" className="body-choice-btn">
+                          <Link to={`/tour-detail/${item._id}`} className="body-choice-btn">
                             Details
                           </Link>
                         </>

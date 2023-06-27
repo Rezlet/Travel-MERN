@@ -1,9 +1,8 @@
-import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 
 export const getCookie = (cookieName: string) => {
   var name = cookieName + "=";
   var ca = document.cookie.split(";");
+  console.log(document.cookie)
   for (var i = 0; i < ca.length; i++) {
     var c = ca[i].trim();
     if (c.indexOf(name) == 0) {

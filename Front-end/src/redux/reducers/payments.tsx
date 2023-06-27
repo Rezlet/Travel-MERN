@@ -26,7 +26,7 @@ export const paymentReducer = createReducer(initialState, {
   },
   getAllPaymentsSuccess: (state: any, action: any) => {
     state.isLoading = false;
-    state.payments = action.payload;
+    state.payments = action.payload.sort((payment: any, lastPayment: any) => (lastPayment.transactionId - payment.transactionId ));
     state.success = true;
   },
   getAllPaymentsFail: (state: any, action: any) => {
