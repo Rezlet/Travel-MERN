@@ -24,9 +24,9 @@ const sendMail = async (option) => {
     to: option.email,
     subject: option.subject,
     html: option.message + htmlImage,
+    attachments: [option.attachment]
   };
 
-  console.log(mailOption)
   await transporter.sendMail(mailOption, (err, info) => {
     if (err) {
       console.log(err);

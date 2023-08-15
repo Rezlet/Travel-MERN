@@ -6,7 +6,7 @@ const User = require("../models/user");
 const Payment = require("../models/payment");
 const sendMail = require("../utils/sendMail");
 const { isAuthenticated } = require("../middleware/auth");
-const pdfService = require('../service/pdf-service')
+const pdfService = require("../service/pdf-service");
 const router = express.Router();
 
 router.post(
@@ -39,19 +39,32 @@ router.post(
       paymentData.user = user;
       paymentData.amount = tour.price * paymentData.quantity;
       const payment = await Payment.create(paymentData);
+      const pdfBytes = await pdfService.buildPDF(paymentData);
 
-      await sendMail({
-        email: user.email,
-        subject: "Departure Schedule Information",
-        message: `
-        <h1>Successful Booking Notification</h1>
-        <p>Dear ${user.email},</p>
-        <p>Your booking has been successfully confirmed, and We will notify you of the departure date via phone number.</p>
-        <p>Thank you for choosing our service.</p>
-        <p>Best regards,</p>
-        <p>Love Travel </p>
-      `,
-      });
+      const attachment = {
+        filename: `Hóa đơn ${paymentData.transactionId}.pdf`,
+        content: pdfBytes,
+        contentType: "application/pdf",
+      };
+
+      try {
+        await sendMail({
+          email: user.email,
+          subject: "Departure Schedule Information",
+          message: `
+          <h1>Successful Booking Notification</h1>
+          <p>Dear ${user.email},</p>
+          <p>Your booking has been successfully confirmed, and We will notify you of the departure date via phone number.</p>
+          <p>Thank you for choosing our service.</p>
+          <p>Best regards,</p>
+          <p>Love Travel </p>
+        `,
+          attachment: attachment,
+        });
+      } catch (error) {
+        console.error(error);
+        return next(new ErrorHandler("Failed to send email", 500));
+      }
 
       res.status(201).json({
         success: true,

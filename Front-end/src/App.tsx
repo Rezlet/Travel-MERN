@@ -26,6 +26,7 @@ import Store from "./redux/store";
 import { loadUser } from "./redux/actions/user";
 import { useSelector } from "react-redux";
 import { isAdmin } from "./shared/GlobalFunction";
+import UpdateUserPage from "./pages/UpdateUserPage";
 function App() {
   const { loading, user } = useSelector((state: any) => state.user);
 
@@ -58,6 +59,7 @@ function App() {
               <Route path="/search-tours" element={<SearchToursPage />}></Route>
               <Route path="/tour-dashboard" element={<TourPage />}></Route>
               <Route path="/create-tour" element={<CreateTourPage />}></Route>
+              <Route path="/update-user" element={<UpdateUserPage />}></Route>
               <Route
                 path="/update-tour/:id"
                 element={<UpdateTourPage />}

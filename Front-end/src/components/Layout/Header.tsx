@@ -108,6 +108,12 @@ const Header = () => {
                     alt=""
                   />
                   <div className="header-account-user">
+                  <Link
+                      to="/update-user"
+                      className="header-account-name limit-line-1"
+                    >
+                      {user.name}
+                    </Link>
                     <Link
                       to="/"
                       onClick={handleLogout}

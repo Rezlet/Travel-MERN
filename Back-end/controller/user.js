@@ -75,12 +75,51 @@ router.post("/create-user", upload.single("file"), async (req, res) => {
     // const newUser = await User.create(user);
     res.status(201).json({
       success: true,
-      statusText: "Please check your email"
+      statusText: "Please check your email",
     });
   } catch (err) {
     return next(new ErrorHandler(err.message), 400);
   }
 });
+
+// router.put(
+//   "/update-user",
+//   isAuthenticated,
+//   catchAsyncError(async (req, res, next) => {
+//     try {
+//       const { name, numberPhone, currentPassword, newPassword } = req.body;
+//       // let user = await User.findById(req.user.id).select("+password");
+//       let user = await User.findOne({ email: req.user.email }).select("+password");
+//       console.log(user)
+//       if (!user) {
+//         return next(new ErrorHandler("User doesn't exists", 400));
+//       }
+//       console.log("check is valid start")
+
+//       const isPasswordValid = await user.comparePassword(currentPassword);
+//       console.log("check is valid end with result: "+ isPasswordValid)
+
+//       if (!isPasswordValid) {
+//         return next(
+//           new ErrorHandler("Please provide the correct information", 400)
+//         );
+//       }
+//       console.log(newPassword)
+//       user.name = name;
+//       user.password = newPassword;
+//       user.phoneNumber = numberPhone;
+
+//       const updatedUser = await User.updateOne({ _id: user.id }, user);
+
+//       res.status(200).json({
+//         success: true,
+//         updatedUser,
+//       });
+//     } catch (err) {
+//       return next(new ErrorHandler(error.message, 500));
+//     }
+//   })
+// );
 // active user
 router.post(
   "/activation",
@@ -158,7 +197,6 @@ router.get(
     // router.get("/getuser", catchAsyncError(async (req,res,next) => {
     try {
       const token = req.headers;
-      // console.log(req.user);
       const user = await User.findById(req.user.id);
       if (!user) {
         return next(new ErrorHandler("User doesn't exists", 400));

@@ -115,7 +115,6 @@ td {
   height: 75vh;
 }
 
-
 .bg-image {
   background-position: center;
   background-repeat: no-repeat;
@@ -123,7 +122,7 @@ td {
 }
 
 .animation-popup {
-  transition: all .5s;
+  transition: all 0.5s;
   opacity: 0;
   transform: translateY(-100px);
   pointer-events: none;
@@ -136,7 +135,7 @@ td {
 }
 
 .background-popup {
-  background-color: rgba(0,0,0,.2);
+  background-color: rgba(0, 0, 0, 0.2);
 }
 
 .border-top {
@@ -157,4 +156,12 @@ td {
 
 .index-bottom {
   z-index: 0;
+}
+
+.limit-line-1 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 1; /* number of lines to show */
+  line-clamp: 1;
+  -webkit-box-orient: vertical;
 }

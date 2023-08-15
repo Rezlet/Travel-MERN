@@ -31,6 +31,7 @@ const PaymentSuccess = () => {
     await axios
       .post(`${server}/payment/create-payment-deposit`, dataToApi)
       .then((res: any) => {
+        console.log("call deposit")
         setTimeout(() => {
           navigate("/");
         }, 2000);
@@ -42,15 +43,20 @@ const PaymentSuccess = () => {
       });
   };
 
+  let shouldLog = true;
   useEffect(() => {
-    if (isFail) {
-      toast.error("Transaction Failed please check again");
-      // navigate("/");
-    } else {
-      toast.success("Transaction Success");
-      toast.info("We'll sent you the information Please check your mail.");
-      sendRequest();
+    if(shouldLog) {
+      shouldLog = false;
+      if (isFail) {
+        toast.error("Transaction Failed please check again");
+        // navigate("/");
+      } else {
+        toast.success("Transaction Success");
+        toast.info("We'll sent you the information Please check your mail.");
+        sendRequest();
+      }
     }
+  
   }, []);
   return (
     <div
