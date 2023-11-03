@@ -23,11 +23,10 @@ const Login = () => {
         { withCredentials: true }
       )
       .then((res) => {
-        console.log(res)
-        document.cookie = `token=${res.data.token}; expires=${res.data.options.expires}`;
+        localStorage.setItem("token", res.data.token);
         toast.success("Login Success");
         navigate("/");
-        window.location.reload(); 
+        window.location.reload();
         // window.location.reload();
       })
       .catch((err) => {

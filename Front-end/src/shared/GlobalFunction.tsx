@@ -1,20 +1,20 @@
-
 export const getCookie = (cookieName: string) => {
-  var name = cookieName + "=";
-  var ca = document.cookie.split(";");
-  console.log(document.cookie)
-  for (var i = 0; i < ca.length; i++) {
-    var c = ca[i].trim();
-    if (c.indexOf(name) == 0) {
-      return c.substr(name.length);
-    }
-  }
-  return null;
+  // var name = cookieName + "=";
+  // var ca = document.cookie.split(";");
+  // console.log(document.cookie)
+  // for (var i = 0; i < ca.length; i++) {
+  //   var c = ca[i].trim();
+  //   if (c.indexOf(name) == 0) {
+  //     return c.substr(name.length);
+  //   }
+  // }
+  return localStorage.getItem(cookieName);
 };
 
 export const deleteCookie = (name: string, path: string = "/") => {
   if (getCookie(name)) {
-    document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=${path};`;
+    localStorage.removeItem(name);
+    // document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=${path};`;
   }
 };
 
@@ -39,16 +39,16 @@ export const validatePhoneNumber = (phone: any) => {
   }
 };
 
-export const capitalizeFirstLetter = (str: String) =>  {
+export const capitalizeFirstLetter = (str: String) => {
   return str.charAt(0).toUpperCase() + str.slice(1);
-}
+};
 
 export const moneyFormatter = () => {
-  let formatter = new Intl.NumberFormat("en-US")
+  let formatter = new Intl.NumberFormat("en-US");
   // , {
   //   style: "currency",
   //   currency: "USD",
   // });
 
-  return formatter
+  return formatter;
 };
