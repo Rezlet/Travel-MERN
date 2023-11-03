@@ -19,13 +19,16 @@ const sendMail = async (option) => {
 
   const htmlImage = `<img src="data:image/jpeg;base64,${imageContent}" 
   alt="Image" style="display: block; margin-top: 20px;">`;
-  const mailOption = {
+
+  let mailOption = {};
+  mailOption = {
     from: process.env.SMPT_MAIL,
     to: option.email,
     subject: option.subject,
     html: option.message + htmlImage,
-    attachments: [option.attachment]
+    attachments: option.attachments ? [option.attachments] : []
   };
+
 
   await transporter.sendMail(mailOption, (err, info) => {
     if (err) {

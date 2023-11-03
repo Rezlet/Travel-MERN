@@ -68,7 +68,7 @@ router.post("/create-user", upload.single("file"), async (req, res) => {
       `,
       });
     } catch (err) {
-      console.log("error send mail");
+      console.log(err);
       return next(new ErrorHandler(err.message, 400));
     }
 
